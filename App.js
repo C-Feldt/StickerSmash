@@ -4,13 +4,18 @@ import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
 import Button from './components/Button';
-import ImageViewer from './components/ImageViewer';
 import CircleButton from './components/CircleButton';
+import EmojiList from './components/EmojiList';
+import EmojiPicker from './components/EmojiPicker';
+import EmojiSticker from './components/EmojiSticker';
 import IconButton from './components/IconButton';
+import ImageViewer from './components/ImageViewer';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [pickedEmoji, setPickedEmoji] = useState(null);
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showAppOptions, setShowAppOptions] = useState(false);
 
@@ -33,20 +38,22 @@ export default function App() {
 	};
 
 	const onAddSticker = () => {
-		// Later
+		setIsModalVisible(true);
 	};
+	
+	onModalClose = () => {
+		setIsModalVisible(false);
+	}
 
 	const onSaveImageAsync = () => {
-		// Later
+		// Save image logic
 	}
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageContainer}>
-				<ImageViewer
-					placeholderImageSource={PlaceholderImage}
-					selectedImage={selectedImage}
-				/>
+				<ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+				{ pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> }
 			</View>
 			{ showAppOptions ? (
 				<View style={styles.optionsContainer}>
@@ -62,6 +69,9 @@ export default function App() {
 					<Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
 				</View>
 			)}
+			<EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+				<EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+			</EmojiPicker>
 			<StatusBar style="auto" />
 		</View>
 	);
