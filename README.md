@@ -1,0 +1,1 @@
+This is a simple Expo app created to familiarize myself with Expo.
