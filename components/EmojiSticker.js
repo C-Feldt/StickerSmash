@@ -13,6 +13,9 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
 			if(scaleImage.value != imageSize * 2) {
 				scaleImage.value = scaleImage.value * 2;
 			}
+			else {
+				scaleImage.value = imageSize;
+			}
 		});
 
 	const drag = Gesture.Pan()
